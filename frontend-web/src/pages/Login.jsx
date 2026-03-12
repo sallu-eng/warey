@@ -26,7 +26,7 @@ const Login = ({ onLogin }) => {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:3000/api/auth', { employeeId });
+            const response = await axios.post('https://wareybe.onrender.com/api/auth', { employeeId });
             
             if (response.data.success) {
                 const loggedInUser = response.data.user;
