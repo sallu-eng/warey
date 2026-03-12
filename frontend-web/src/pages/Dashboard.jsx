@@ -149,8 +149,8 @@ const Dashboard = ({ user }) => {
         
         try {
             const [itemsRes, auditRes] = await Promise.all([
-                axios.get('http://localhost:3000/api/items'),
-                axios.get('http://localhost:3000/api/audit')
+                axios.get('https://wareybe.onrender.com/api/items'),
+                axios.get('https://wareybe.onrender.com/api/audit')
             ]);
             setItems(itemsRes.data);
             setLogs(auditRes.data.reverse().slice(0, 5)); 
