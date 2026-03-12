@@ -22,7 +22,7 @@ const Employees = () => {
     const fetchEmployees = async () => {
         try {
             setLoading(true);
-            const res = await axios.get('http://localhost:3000/api/employees');
+            const res = await axios.get('https://wareybe.onrender.com/api/employees');
             setEmployees(res.data);
         } catch (err) {
             console.error(err);
@@ -54,10 +54,10 @@ const Employees = () => {
         setSubmitting(true);
         try {
             if (isEditing) {
-                await axios.put(`http://localhost:3000/api/employees/${sanitizedData.id}`, sanitizedData);
+                await axios.put(`https://wareybe.onrender.com/api/employees/${sanitizedData.id}`, sanitizedData);
                 setFeedback({ type: 'success', message: 'Employee updated successfully!' });
             } else {
-                await axios.post('http://localhost:3000/api/employees/add', sanitizedData);
+                await axios.post('https://wareybe.onrender.com/api/employees/add', sanitizedData);
                 setFeedback({ type: 'success', message: 'Employee registered successfully!' });
             }
             
@@ -79,7 +79,7 @@ const Employees = () => {
         
         setActionId(id);
         try {
-            await axios.delete(`http://localhost:3000/api/employees/${id}`);
+            await axios.delete(`https://wareybe.onrender.com/api/employees/${id}`);
             setEmployees(prev => prev.filter(emp => emp.id !== id));
             if (isEditing && formData.id === id) resetForm();
         } catch (err) {
