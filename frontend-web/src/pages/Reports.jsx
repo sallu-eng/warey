@@ -62,7 +62,7 @@ const Reports = () => {
                     <h2 className="fw-bold mb-1" style={{ color: 'var(--text-main)' }}>Warehouse Analytics</h2>
                     <p className="mb-0" style={{ color: 'var(--text-dim)' }}>Real-time performance metrics and inventory trends</p>
                 </div>
-                <button onClick={handleExport} className="btn d-flex align-items-center gap-2 fw-medium shadow-sm" style={{ backgroundColor: '#10b981', color: '#fff' }}>
+                <button onClick={handleExport} className="btn d-flex align-items-center gap-2 fw-medium shadow-sm w-100 w-md-auto" style={{ backgroundColor: '#10b981', color: '#fff' }}>
                     <Download size={18} /> Export CSV
                 </button>
             </header>
@@ -108,7 +108,7 @@ const Reports = () => {
                         <h5 className="fw-bold mb-4 d-flex align-items-center gap-2" style={{ color: 'var(--text-main)' }}>
                             <Activity size={20} style={{ color: 'var(--primary)' }} /> Top 5 Stocked Items
                         </h5>
-                        <div style={{ height: 300, width: '100%' }}>
+                        <div className="chart-embed" style={{ width: '100%' }}>
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={topItems} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--glass-border)" />
@@ -129,7 +129,7 @@ const Reports = () => {
                             <PieIcon size={20} style={{ color: 'var(--primary)' }} /> Stock Distribution
                         </h5>
                         {totalStock > 0 ? (
-                            <div style={{ height: 300, width: '100%' }}>
+                            <div className="chart-embed" style={{ width: '100%' }}>
                                 <ResponsiveContainer width="100%" height="100%">
                                     <PieChart>
                                         <Pie

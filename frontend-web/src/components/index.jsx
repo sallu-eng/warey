@@ -1,40 +1,93 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   LogOut, Bell, User, LayoutDashboard, 
-  MessageSquare, BarChart2, Users, Package 
+  MessageSquare, BarChart2, Users, Package, Menu, X 
 } from 'lucide-react';
 
 // --- Header.jsx ---
-export const Header = ({ user, onLogout }) => (
-  <header className="d-flex align-items-center justify-content-between p-3 px-4 mb-4 rounded-4 shadow-sm mx-3 mt-3 transition-all" style={{ backgroundColor: 'var(--surface)', borderBottom: '1px solid var(--glass-border)' }}>
-    <div className="fs-3 fw-bolder" style={{ color: 'var(--primary)' }}>
-      Warey
-    </div>
-    <div className="d-flex align-items-center gap-4">
-      <button className="btn btn-link p-0 position-relative transition-hover shadow-none" style={{ color: 'var(--text-dim)' }}>
-        <Bell size={20} />
-        <span className="position-absolute top-0 start-100 translate-middle p-1 bg-danger border rounded-circle"></span>
-      </button>
-      
-      <div className="d-flex align-items-center gap-2 ms-2">
-        <div className="rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)' }}>
-          <User size={16} style={{ color: 'var(--primary)' }} />
-        </div>
-        <span className="fw-bold d-none d-sm-block" style={{ color: 'var(--text-main)' }}>{user?.name || 'Guest'}</span>
-      </div>
+export const Header = ({ user, onLogout }) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
-      <button 
-        onClick={onLogout} 
-        className="btn btn-sm d-flex align-items-center gap-2 rounded-pill px-4 py-2 transition-hover ms-2" 
-        style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.2)' }}
-      >
-        <LogOut size={16} />
-        <span className="d-none d-sm-block fw-medium">Logout</span>
-      </button>
-    </div>
-  </header>
-);
+  const menuItems = [
+    { path: '/', icon: LayoutDashboard, label: 'Dashboard' },
+    { path: '/chat', icon: MessageSquare, label: 'AI Assistant' },
+    ...(user?.role === 'Manager' ? [
+      { path: '/employees', icon: Users, label: 'Personnel' },
+      { path: '/reports', icon: BarChart2, label: 'Reports' }
+    ] : []),
+  ];
+
+  return (
+    <>
+      <header className="d-flex align-items-center justify-content-between p-3 px-4 mb-4 rounded-4 shadow-sm mx-3 mt-3 transition-all" style={{ backgroundColor: 'var(--surface)', borderBottom: '1px solid var(--glass-border)' }}>
+        <div className="d-flex align-items-center gap-3">
+          <button
+            className="btn btn-link p-0 d-lg-none"
+            onClick={() => setMobileMenuOpen(true)}
+            style={{ color: 'var(--text-dim)' }}
+          >
+            <Menu size={24} />
+          </button>
+          <div className="fs-3 fw-bolder" style={{ color: 'var(--primary)' }}>
+            Warey
+          </div>
+        </div>
+        <div className="d-flex align-items-center gap-4">
+          <button className="btn btn-link p-0 position-relative transition-hover shadow-none" style={{ color: 'var(--text-dim)' }}>
+            <Bell size={20} />
+            <span className="position-absolute top-0 start-100 translate-middle p-1 bg-danger border rounded-circle"></span>
+          </button>
+          
+          <div className="d-flex align-items-center gap-2 ms-2">
+            <div className="rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)' }}>
+              <User size={16} style={{ color: 'var(--primary)' }} />
+            </div>
+            <span className="fw-bold d-none d-sm-block" style={{ color: 'var(--text-main)' }}>{user?.name || 'Guest'}</span>
+          </div>
+
+          <button 
+            onClick={onLogout} 
+            className="btn btn-sm d-flex align-items-center gap-2 rounded-pill px-4 py-2 transition-hover ms-2" 
+            style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.2)' }}
+          >
+            <LogOut size={16} />
+            <span className="d-none d-sm-block fw-medium">Logout</span>
+          </button>
+        </div>
+      </header>
+
+      {mobileMenuOpen && (
+        <div className="mobile-nav">
+          <div className="mobile-nav-header d-flex justify-content-between align-items-center p-3">
+            <div className="fs-4 fw-bold" style={{ color: 'var(--primary)' }}>Menu</div>
+            <button className="btn btn-link p-0" onClick={() => setMobileMenuOpen(false)} style={{ color: 'var(--text-dim)' }}>
+              <X size={24} />
+            </button>
+          </div>
+          <nav className="d-flex flex-column p-3">
+            {menuItems.map(item => {
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`d-flex align-items-center gap-2 py-2 px-3 rounded ${isActive ? 'bg-primary text-white' : 'text-white-75'}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <item.icon size={20} style={{ color: isActive ? '#fff' : undefined }} />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+      )}
+    </>
+  );
+};
 
 // --- Sidebar.jsx ---
 export const Sidebar = ({ role }) => {
