@@ -24,7 +24,7 @@ const Chatbot = ({ user }) => {
       if (!employeeId) return;
 
       try {
-        const res = await axios.get(`http://localhost:3000/api/ai/history/${employeeId}`);
+        const res = await axios.get(`https://wareybe.onrender.com/api/ai/history/${employeeId}`);
 
         if (res.data && res.data.length > 0) {
           const formattedHistory = res.data.map((msg) => ({
@@ -95,7 +95,7 @@ const Chatbot = ({ user }) => {
     try {
       const employeeId = user?.id || user?.employeeId || 'default_user';
 
-      const res = await axios.post('http://localhost:3000/api/ai/query', {
+      const res = await axios.post('https://wareybe.onrender.com/api/ai/query', {
         query: sanitizedText,
         employeeId: employeeId,
       });
