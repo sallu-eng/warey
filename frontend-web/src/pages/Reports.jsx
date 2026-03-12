@@ -13,7 +13,7 @@ const Reports = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/items')
+        axios.get('https://wareybe.onrender.com/api/items')
             .then(res => setItems(res.data))
             .catch(err => setError("Failed to load analytics data."))
             .finally(() => setLoading(false));
